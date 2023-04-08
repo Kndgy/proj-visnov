@@ -5,47 +5,56 @@ import "./App.css";
 
 type ImageData = {
     image: string;
-  };  
+};  
+
+const initialCollections: ImageData[] = []
 
 const UploadImage = () => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+    const [imgCollection, setImgCollection] = useState<ImageData[]>(initialCollections)
   
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files && e.target.files[0];
-      if(file){
-        setSelectedFile(file);
-      }
+        const file = e.target.files && e.target.files[0];
+        if(file){
+            setSelectedFile(file);
+        }
     };
     
     const handleUpload = () => {
-      if (selectedFile) {
+        if (selectedFile) {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = () => {
-          const dataUrl = reader.result as string;
-          const structure = [
+            const dataUrl = reader.result as string;
+            const structure = 
             {
                 image: dataUrl
             }
-            ]
-          localStorage.setItem('image', JSON.stringify(structure));
-          setImageUrl(dataUrl);
+            const imgStructures = [...imgCollection, structure]
+            setImgCollection(imgStructures)
+            localStorage.setItem('image', JSON.stringify(imgStructures));
+            setImageUrl(dataUrl);
         };
       }
     };
-  
+
+    const colls = localStorage.getItem('image')
+    let parsedImages: ImageData[] = []
+    if(colls){
+        parsedImages = JSON.parse(colls)
+    }
+    console.log(parsedImages)
+
     const renderImage = () => {
-      if (imageUrl) {
-        return <img src={imageUrl} alt="uploaded image" />;
-      }
-      const storedImage = localStorage.getItem('image');
-      if (storedImage) {
-        return <img src={storedImage} alt="previously uploaded image" />;
+      if(colls){
+        return(
+            <>{parsedImages.map((item)=><img src={item.image}/>)}</>
+        )
       }
       return null;
     };
-  
+
     return (
       <div>
         <input type="file" multiple onChange={handleFileInput} />
