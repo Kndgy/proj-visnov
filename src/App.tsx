@@ -3,6 +3,10 @@ import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
+type ImageData = {
+    image: string;
+  };  
+
 const UploadImage = () => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -13,14 +17,19 @@ const UploadImage = () => {
         setSelectedFile(file);
       }
     };
-  
+    
     const handleUpload = () => {
       if (selectedFile) {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = () => {
           const dataUrl = reader.result as string;
-          localStorage.setItem('image', dataUrl);
+          const structure = [
+            {
+                image: dataUrl
+            }
+            ]
+          localStorage.setItem('image', JSON.stringify(structure));
           setImageUrl(dataUrl);
         };
       }
@@ -39,9 +48,9 @@ const UploadImage = () => {
   
     return (
       <div>
-        <input type="file" onChange={handleFileInput} />
+        <input type="file" multiple onChange={handleFileInput} />
         <button onClick={handleUpload}>Upload</button>
-        {renderImage()}
+        <div className="rendered-image">{renderImage()}</div>
       </div>
     );
   };
