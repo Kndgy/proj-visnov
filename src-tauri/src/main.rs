@@ -30,9 +30,22 @@ fn saveBlankFile(filename: &str, content: &str) -> Result<(), String> {
     }
 }
 
+#[tauri::command]
+fn readJsonFile(file_path: String) -> Result<String, String> {
+    use std::fs;
+
+    let file_content = match fs::read_to_string(&file_path) {
+        Ok(content) => content,
+        Err(err) => return Err(format!("Failed to read file: {}", err)),
+    };
+
+    Ok(file_content)
+}
+
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, two, saveBlankFile])
+        .invoke_handler(tauri::generate_handler![greet, two, saveBlankFile, readJsonFile])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

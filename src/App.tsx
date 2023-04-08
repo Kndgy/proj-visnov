@@ -9,11 +9,13 @@ type ImageData = {
 
 const initialCollections: ImageData[] = []
 
-const UploadImage = () => {
-    const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-    const [imgCollection, setImgCollection] = useState<ImageData[]>(initialCollections)
-  
+function App() {
+  const [greetMsg, setGreetMsg] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+  const [imgCollection, setImgCollection] = useState<ImageData[]>(initialCollections)
+
+  const UploadImage = () => {
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
         if(file){
@@ -33,8 +35,8 @@ const UploadImage = () => {
             }
             const imgStructures = [...imgCollection, structure]
             setImgCollection(imgStructures)
+            console.log(imgStructures)
             localStorage.setItem('image', JSON.stringify(imgStructures));
-            setImageUrl(dataUrl);
         };
       }
     };
@@ -62,21 +64,23 @@ const UploadImage = () => {
         <div className="rendered-image">{renderImage()}</div>
       </div>
     );
-  };
-
-
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+};
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    invoke('saveBlankFile', {filename:"lol", content:`
-        [
-            {
-                "ProjDir":"test"
-            }
-        ]`
+    // invoke('saveBlankFile', {filename:"lol", content:`
+    //     [
+    //         {
+    //             "ProjDir":"test"
+    //         }
+    //     ]`
+    // });
+  }
+
+  async function readFile() {
+    await invoke('readJsonFile', {filePath:'D:/lol.json'}).then((filecontent)=>{
+        console.log(filecontent)
+    }).catch((error) => {
+        console.error(error);
     });
   }
 
@@ -84,8 +88,9 @@ function App() {
     <div className="container">
       <div className="row">
           <button onClick={greet} type="submit">Create Config</button>
-          <br/>
-          <br/>
+          <p/>
+          <button onClick={readFile} type="submit">Log file content</button>
+          <p/>
           <UploadImage/>
       </div>
       <p>{greetMsg}</p>
