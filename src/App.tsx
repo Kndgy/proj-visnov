@@ -83,7 +83,7 @@ function App() {
   return (
     <div className="container">
       <div className="row">
-          <button type="submit">Create Config</button>
+          <button onClick={greet} type="submit">Create Config</button>
           <br/>
           <br/>
           <UploadImage/>
