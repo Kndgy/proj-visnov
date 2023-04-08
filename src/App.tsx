@@ -4,33 +4,47 @@ import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
 const UploadImage = () => {
-  const [image, setImage] = useState<File | null>(null);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if(file){
-        setImage(file);
-    }
+    const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  
+    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files && e.target.files[0];
+      if(file){
+        setSelectedFile(file);
+      }
+    };
+  
+    const handleUpload = () => {
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = () => {
+          const dataUrl = reader.result as string;
+          localStorage.setItem('image', dataUrl);
+          setImageUrl(dataUrl);
+        };
+      }
+    };
+  
+    const renderImage = () => {
+      if (imageUrl) {
+        return <img src={imageUrl} alt="uploaded image" />;
+      }
+      const storedImage = localStorage.getItem('image');
+      if (storedImage) {
+        return <img src={storedImage} alt="previously uploaded image" />;
+      }
+      return null;
+    };
+  
+    return (
+      <div>
+        <input type="file" onChange={handleFileInput} />
+        <button onClick={handleUpload}>Upload</button>
+        {renderImage()}
+      </div>
+    );
   };
-
-  const handleUpload = () => {
-    if (image) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        localStorage.setItem('image', dataUrl);
-      };
-      reader.readAsDataURL(image);
-    }
-  };
-
-  return (
-    <div>
-      <input type="file" onChange={handleFileChange} /> 
-      <button onClick={handleUpload}>Upload</button>
-    </div>
-  );
-};
 
 
 function App() {
