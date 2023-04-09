@@ -18,7 +18,7 @@ fn saveBlankFile(filename: &str, content: &str) -> Result<(), String> {
     use std::io::prelude::*;
     use serde_json;
 
-    let file_path = format!("D:/{filename}.json");
+    let file_path = format!("D:/{filename}.txt");
     let mut file = match File::create(&file_path) {
         Ok(file) => file,
         Err(err) => return Err(format!("Failed to create file: {}", err)),
