@@ -11,36 +11,37 @@ interface configInterface {
 function App() {
     const [fileStructures, setFileStructure] = useState();
 
+    const defaultconf= `       
+    {
+        "ProjDir":"test",
+        "imageCollections":[
+            {
+                "image":""
+            }
+        ]
+    }
+`
+
+async function saveConfig(content:string) {
+    invoke('saveBlankFile', {filename:"lol", content:content});
+}
+
     useEffect(() => {
-        console.log(fileStructures);
+        // console.log(fileStructures);
     }, [fileStructures]);
-    
     async function readFile() {
         try {
             const filecontent = await invoke('readJsonFile', {filePath:'D:/lol.txt'});
             setFileStructure(JSON.parse(filecontent as string));
+            console.log(fileStructures)
         } catch (error) {
-            console.error(error);
+            saveConfig(defaultconf)
+            console.error("error", error);
         }
     }
 
     if(!fileStructures){
         readFile()
-    }
-
-    const defaultconf= `       
-        {
-            "ProjDir":"test",
-            "imageCollections":[
-                {
-                    "image":""
-                }
-            ]
-        }
-    `
-
-    async function saveConfig(content:string) {
-        invoke('saveBlankFile', {filename:"lol", content:content});
     }
       
     const UploadImage = () => {
@@ -77,8 +78,6 @@ function App() {
             if(fileStructures){
                 const configStructure: configInterface = fileStructures;
                 saveConfig(JSON.stringify(configStructure))
-                console.log("image", )
-
                 return(
                     <div>{configStructure.imageCollections.map((items, index)=><img key={index} src={items.image}/>)}</div>
                 )
