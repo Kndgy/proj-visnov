@@ -86,7 +86,7 @@ async function saveConfig(content:string) {
 
         return (
             <div>
-                <input type="file" multiple onChange={handleFileInput} />
+                <input type="file" accept="image/*" multiple onChange={handleFileInput} />
                 <button onClick={handleUpload}>Upload</button>
                 <p/>
                 <div className="rendered-image">{renderImage()}</div>
