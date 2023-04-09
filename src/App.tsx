@@ -74,7 +74,15 @@ function App() {
         };
 
         const renderImage = () => {
+            if(fileStructures){
+                const configStructure: configInterface = fileStructures;
+                saveConfig(JSON.stringify(configStructure))
+                console.log("image", )
 
+                return(
+                    <div>{configStructure.imageCollections.map((items, index)=><img key={index} src={items.image}/>)}</div>
+                )
+            }
         };
 
         return (
@@ -82,7 +90,7 @@ function App() {
                 <input type="file" multiple onChange={handleFileInput} />
                 <button onClick={handleUpload}>Upload</button>
                 <p/>
-                {/* <div className="rendered-image">{renderImage()}</div> */}
+                <div className="rendered-image">{renderImage()}</div>
             </div>
         );
     };
