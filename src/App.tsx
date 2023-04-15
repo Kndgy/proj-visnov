@@ -17,6 +17,7 @@ function App() {
         "ProjDir":"test",
         "imageCollections":[
             {
+                "page":"",
                 "image":""
             }
         ]
