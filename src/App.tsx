@@ -11,6 +11,7 @@ interface configInterface {
 
 function App() {
     const [fileStructures, setFileStructure] = useState();
+    const [currentPage, setCurrentPage] = useState(0);
 
     const defaultconf= `       
     {
@@ -29,7 +30,6 @@ async function saveConfig(content:string) {
 }
 
     useEffect(() => {
-        // console.log(fileStructures);
     }, [fileStructures]);
     async function readFile() {
         try {
@@ -64,6 +64,7 @@ async function saveConfig(content:string) {
                     const dataUrl = reader.result as string;
                     const structure = 
                     {
+                        page:0,
                         image: dataUrl
                     }
                     if(fileStructures){
@@ -96,18 +97,29 @@ async function saveConfig(content:string) {
         );
     };
 
-  return (
-    <div className="container">
-      <div className="row">
-        <PagesModule/>
-          {/* <button onClick={saveConfig} type="submit">Create Config</button> */}
-          <p/>
-          <button onClick={readFile} type="submit">Log file content</button>
-          <p/>
-          <UploadImage/>
-      </div>
-    </div>
-  );
+    const handleNext = () => {
+        setCurrentPage(currentPage+1)
+    }
+
+    const handlePrev = () => {
+        setCurrentPage(currentPage-1)
+    }
+
+    console.log(currentPage)
+
+    return (
+        <div className="container">
+            <div className="row">
+                <PagesModule/>
+                {/* <button onClick={saveConfig} type="submit">Create Config</button> */}
+                <p/>
+                <button onClick={readFile} type="submit">Log file content</button>
+                <p/>
+                <button onClick={handlePrev}>previous page</button> <button onClick={handleNext}>next page</button>
+                {/* <UploadImage/> */}
+            </div>
+        </div>
+    );
 }
 
 export default App;
