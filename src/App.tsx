@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
+import { PagesModule } from "./pagesModule";
 
 interface configInterface {
     ProjDir: string;
@@ -97,6 +98,7 @@ async function saveConfig(content:string) {
   return (
     <div className="container">
       <div className="row">
+        <PagesModule/>
           {/* <button onClick={saveConfig} type="submit">Create Config</button> */}
           <p/>
           <button onClick={readFile} type="submit">Log file content</button>
