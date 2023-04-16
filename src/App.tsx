@@ -110,11 +110,23 @@ function App() {
   };
 
   const handleNext = () => {
-    setCurrentPage(currentPage + 1);
+    if(fileStructures){
+      if(currentPage >= fileStructures?.imageCollections.length){
+        setCurrentPage(0);
+      }else{
+        setCurrentPage(currentPage+1)
+      }
+    }
   };
 
   const handlePrev = () => {
-    setCurrentPage(currentPage - 1);
+    if(fileStructures){
+      if(currentPage == 0){
+        setCurrentPage(fileStructures?.imageCollections.length);
+      }else{
+        setCurrentPage(currentPage-1)
+      }
+    }
   };
 
   console.log("current page", currentPage);
