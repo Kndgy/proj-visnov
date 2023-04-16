@@ -144,6 +144,8 @@ function App() {
         <button onClick={handlePrev}>previous page</button>{" "}
         <button onClick={handleNext}>next page</button>
         <p/>
+        {currentPage}
+        <p/>
         <UploadImage/>
       </div>
     </div>
