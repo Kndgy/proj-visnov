@@ -6,11 +6,11 @@ import { PagesModule } from "./pagesModule";
 
 interface configInterface {
   ProjDir: string;
-  imageCollections: { image: string }[];
+  imageCollections: { page:number, image: string }[];
 }
 
 function App() {
-  const [fileStructures, setFileStructure] = useState();
+  const [fileStructures, setFileStructure] = useState<configInterface>();
   const [currentPage, setCurrentPage] = useState(0);
 
   const defaultconf = `       
@@ -18,7 +18,7 @@ function App() {
         "ProjDir":"test",
         "imageCollections":[
             {
-                "page":"",
+                "page":0,
                 "image":""
             }
         ]
@@ -46,6 +46,8 @@ function App() {
   if (!fileStructures) {
     readFile();
   }
+
+  console.log(fileStructures?.imageCollections.length)
 
   const UploadImage = () => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>(
@@ -115,7 +117,7 @@ function App() {
     setCurrentPage(currentPage - 1);
   };
 
-  console.log(currentPage);
+  console.log("current page", currentPage);
 
   return (
     <div className="container">
@@ -129,7 +131,8 @@ function App() {
         <p />
         <button onClick={handlePrev}>previous page</button>{" "}
         <button onClick={handleNext}>next page</button>
-        {/* <UploadImage/> */}
+        <p/>
+        <UploadImage/>
       </div>
     </div>
   );
