@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
-import { PagesModule } from "./pagesModule";
+import { PagesModule } from "./modules/pagesModule";
 
 interface configInterface {
   ProjDir: string;
@@ -140,6 +140,7 @@ function App() {
     <div className="container">
       <div className="row">
         <PagesModule />
+        <p/>
         <button onClick={createConfig} type="submit">Create Config</button>
         <p />
         <button onClick={readFile} type="submit">
