@@ -138,6 +138,9 @@ function App() {
 
   return (
     <div className="container">
+      <div className="pages">
+        slides/pagination or something
+      </div>
       <div className="row">
         <PagesModule />
         <p/>
