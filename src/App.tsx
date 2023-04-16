@@ -28,6 +28,12 @@ function App() {
     invoke("saveBlankFile", { filename: "lol", content: content });
   }
 
+  async function createConfig(){
+    if(!fileStructures){
+      invoke("saveBlankFile", { filename: "lol", content: "" });
+    }  
+  }
+
   useEffect(() => {}, [fileStructures]);
   async function readFile() {
     try {
@@ -134,7 +140,7 @@ function App() {
     <div className="container">
       <div className="row">
         <PagesModule />
-        <button onClick={saveConfig} type="submit">Create Config</button>
+        <button onClick={createConfig} type="submit">Create Config</button>
         <p />
         <button onClick={readFile} type="submit">
           Log file content
