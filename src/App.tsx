@@ -23,8 +23,6 @@ function App() {
       ]
   }
 
-  const defaultconf = JSON.stringify(confInJson)
-
   async function saveConfig(content: string) {
     invoke("saveBlankFile", { filename: "lol", content: content });
   }
@@ -44,7 +42,7 @@ function App() {
       setFileStructure(JSON.parse(filecontent as string));
       console.log(fileStructures);
     } catch (error) {
-      saveConfig(defaultconf);
+      saveConfig(JSON.stringify(confInJson));
       console.error("error", error);
     }
   }
