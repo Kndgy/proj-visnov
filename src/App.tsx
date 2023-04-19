@@ -12,17 +12,18 @@ function App() {
   const [fileStructures, setFileStructure] = useState<configInterface>();
   const [currentPage, setCurrentPage] = useState(0);
 
-  const defaultconf = `       
-    {
-        "ProjDir":"test",
-        "imageCollections":[
-            {
-                "page":0,
-                "image":""
-            }
-        ]
-    }
-`;
+  const confInJson = 
+  {
+      "ProjDir":"test",
+      "imageCollections":[
+          {
+              "page":0,
+              "image":""
+          }
+      ]
+  }
+
+  const defaultconf = JSON.stringify(confInJson)
 
   async function saveConfig(content: string) {
     invoke("saveBlankFile", { filename: "lol", content: content });
