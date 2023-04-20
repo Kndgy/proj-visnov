@@ -5,7 +5,7 @@ import { PagesModule } from "./modules/pagesModule";
 
 interface configInterface {
   ProjDir: string;
-  imageCollections: { page:number, image: string }[];
+  imageCollections: {image: string }[];
 }
 
 function App() {
@@ -17,11 +17,10 @@ function App() {
       "ProjDir":"test",
       "imageCollections":[
           {
-              "page":0,
-              "image":""
+            "image":""
           }
       ]
-  }
+  } as configInterface
 
   async function saveConfig(content: string) {
     invoke("saveBlankFile", { filename: "lol", content: content });

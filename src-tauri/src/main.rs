@@ -31,6 +31,15 @@ fn saveBlankFile(filename: &str, content: &str) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn delete_file(filename: String) -> Result<(), String> {
+    let file_path = format!("D:/{}.txt", filename);
+    match std::fs::remove_file(file_path) {
+        Ok(_) => Ok(()),
+        Err(err) => Err(format!("Failed to delete file: {}", err)),
+    }
+}
+
+#[tauri::command]
 fn readJsonFile(file_path: String) -> Result<String, String> {
     use std::fs;
 
