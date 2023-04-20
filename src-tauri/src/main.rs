@@ -31,7 +31,7 @@ fn saveBlankFile(filename: &str, content: &str) -> Result<(), String> {
 }
 
 #[tauri::command]
-fn delete_file(filename: String) -> Result<(), String> {
+fn deleteFile(filename: String) -> Result<(), String> {
     let file_path = format!("D:/{}.txt", filename);
     match std::fs::remove_file(file_path) {
         Ok(_) => Ok(()),
@@ -54,7 +54,7 @@ fn readJsonFile(file_path: String) -> Result<String, String> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, two, saveBlankFile, readJsonFile])
+        .invoke_handler(tauri::generate_handler![greet, two, saveBlankFile, readJsonFile, deleteFile])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
